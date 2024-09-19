@@ -1,24 +1,31 @@
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Calculator implements ActionListener{// actionlistener to take actions from switch
+public class Calculator extends JFrame implements ActionListener{// actionlistener to take actions from switch
 	
 	
+
 	boolean IsOperatorClicked = false;
 	String OldValue;
+	String operator = "";
 	
 	JFrame jf;
 	JLabel displaylabel;
 	JButton sevenbutton,eightbutton,ninebutton,fourbutton,fivebutton,sixbutton,threebutton,
 	twobutton,onebutton,dotbutton,minusbutton,plusbutton,multibutton,dividebutton,zerobutton
 	,equalbutton,clearbutton;
+    
 	
 	
 	public Calculator() {// constructor
@@ -26,119 +33,93 @@ public class Calculator implements ActionListener{// actionlistener to take acti
 		jf.setLayout(null);
 		jf.setSize(600, 600);
 		jf.setLocation(300, 150);
-		
-		displaylabel = new JLabel(); // to label something
-		displaylabel.setBounds(30, 50, 540, 40);
-		displaylabel.setBackground(Color.gray);
-		displaylabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		displaylabel.setForeground(Color.white);
-		displaylabel.setOpaque(true);
-		jf.add(displaylabel);
-		
-		sevenbutton =new JButton("7") ;//button 7
-		sevenbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		sevenbutton.addActionListener(this);
-		sevenbutton.setBounds(30, 130, 80, 80);
-		jf.add(sevenbutton);
-		
-		eightbutton =new JButton("8") ;//button 8
-		eightbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		eightbutton.addActionListener(this);
-		eightbutton.setBounds(120, 130, 80, 80);
-		jf.add(eightbutton);
-		
-		ninebutton =new JButton("9") ;//button 9
-		ninebutton.setFont(new Font("Arial",Font.PLAIN,40));
-		ninebutton.setBounds(210, 130, 80, 80);
-		ninebutton.addActionListener(this);
-		jf.add(ninebutton);
-		
-		fourbutton =new JButton("4") ;//button 4
-		fourbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		fourbutton.setBounds(30,220, 80, 80);
-		fourbutton.addActionListener(this);
-		jf.add(fourbutton);
-		
-		fivebutton =new JButton("5") ;//button 5
-		fivebutton.setFont(new Font("Arial",Font.PLAIN,40));
-		fivebutton.addActionListener(this);
-		fivebutton.setBounds(120,220, 80, 80);
-		jf.add(fivebutton);
-		
-		sixbutton =new JButton("6") ;//button 6
-		sixbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		sixbutton.addActionListener(this);
-		sixbutton.setBounds(210,220, 80, 80);
-		jf.add(sixbutton);
-		
-		onebutton =new JButton("1") ;//button 1
-		onebutton.setFont(new Font("Arial",Font.PLAIN,40));
-		onebutton.addActionListener(this);
-		onebutton.setBounds(30,310, 80, 80);
-		jf.add(onebutton);
-		
-		twobutton =new JButton("2") ;//button 2
-		twobutton.setFont(new Font("Arial",Font.PLAIN,40));
-		twobutton.addActionListener(this);
-		twobutton.setBounds(120,310, 80, 80);
-		jf.add(twobutton);
-		
-		threebutton =new JButton("3") ;//button 3
-		threebutton.setFont(new Font("Arial",Font.PLAIN,40));
-		threebutton.setBounds(210,310, 80, 80);
-		threebutton.addActionListener(this);
-		jf.add(threebutton);
-		
-		zerobutton =new JButton("0") ;//button 0
-		zerobutton.setFont(new Font("Arial",Font.PLAIN,40));
-		zerobutton.setBounds(30,400, 80, 80);
-		zerobutton.addActionListener(this);
-		jf.add(zerobutton);
-		
 
-		equalbutton =new JButton("=") ;//button =
-		equalbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		equalbutton.setBounds(210,400, 80, 80);
-		equalbutton.addActionListener(this);
-		jf.add(equalbutton);
+	    CalculatorPanel mainPanel = new CalculatorPanel();
+		mainPanel.setLayout(null);
+
 		
-		plusbutton =new JButton("+") ;//button =
-		plusbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		plusbutton.setBounds(300,130, 80, 80);
-		plusbutton.addActionListener(this);
-		jf.add(plusbutton);
+		displaylabel = new JLabel();
+        displaylabel.setBounds(30, 50, 540, 40);
+        displaylabel.setBackground(Color.gray);
+        displaylabel.setHorizontalAlignment(SwingConstants.RIGHT); 
+
+        displaylabel.setForeground(Color.white);
+        displaylabel.setOpaque(true); 
+
+        mainPanel.add(displaylabel);
+
+        // Create and add NumberButtons
+		zerobutton = new NumberButton("0", this);
+		zerobutton.setBounds(30, 400, 80, 80);
 		
-		minusbutton =new JButton("-") ;//button =
-		minusbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		minusbutton.setBounds(300,220, 80, 80);
-		minusbutton.addActionListener(this);
-		jf.add(minusbutton);
+		mainPanel.add(zerobutton);
 		
-		multibutton =new JButton("*") ;//button =
-		multibutton.setFont(new Font("Arial",Font.PLAIN,40));
-		multibutton.setBounds(300,310, 80, 80);
-		multibutton.addActionListener(this);
-		jf.add(multibutton);
+		onebutton = new NumberButton("1", this);
+		onebutton.setBounds(30, 310, 80, 80);
+		mainPanel.add(onebutton);
 		
-		dividebutton =new JButton("/") ;//button =
-		dividebutton.setFont(new Font("Arial",Font.PLAIN,40));
-		dividebutton.setBounds(300,400, 80, 80);
-		dividebutton.addActionListener(this);
-		jf.add(dividebutton);
+		twobutton = new NumberButton("2", this);
+		twobutton.setBounds(120, 310, 80, 80);
+		mainPanel.add(twobutton);
 		
-		dotbutton =new JButton(".") ;//button =
-		dotbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		dotbutton.setBounds(120,400, 80, 80);
-		dotbutton.addActionListener(this);
-		jf.add(dotbutton);
+		threebutton = new NumberButton("3", this);
+		threebutton.setBounds(210, 310, 80, 80);
+		mainPanel.add(threebutton);
 		
-		clearbutton =new JButton("C") ;//button =
-		clearbutton.setFont(new Font("Arial",Font.PLAIN,40));
-		clearbutton.setBounds(390,400, 80, 80);
-		clearbutton.addActionListener(this);
-		jf.add(clearbutton);
+		fourbutton = new NumberButton("4", this);
+		fourbutton.setBounds(30, 220, 80, 80);
+		mainPanel.add(fourbutton);
 		
+		fivebutton = new NumberButton("5", this);
+		fivebutton.setBounds(120, 220, 80, 80);
+		mainPanel.add(fivebutton);
 		
+		sixbutton = new NumberButton("6", this);
+		sixbutton.setBounds(210, 220, 80, 80);
+		mainPanel.add(sixbutton);
+		
+		sevenbutton = new NumberButton("7", this);
+		sevenbutton.setBounds(30, 130, 80, 80);
+		mainPanel.add(sevenbutton);
+		
+		eightbutton = new NumberButton("8", this);
+		eightbutton.setBounds(120, 130, 80, 80);
+		mainPanel.add(eightbutton);
+		
+		ninebutton = new NumberButton("9", this);
+		ninebutton.setBounds(210, 130, 80, 80);
+		mainPanel.add(ninebutton);
+        // Create and add OperatorButtons
+        plusbutton = new OperatorButton("+", this);
+        plusbutton.setBounds(300, 130, 80, 80);
+        mainPanel.add(plusbutton);
+
+        minusbutton = new OperatorButton("-", this);
+        minusbutton.setBounds(300, 220, 80, 80);
+        mainPanel.add(minusbutton);
+
+        multibutton = new OperatorButton("*", this); // Create a button for multiplication (*)
+        multibutton.setBounds(300, 310, 80, 80);
+        mainPanel.add(multibutton);
+
+        dividebutton = new OperatorButton("/", this);
+        dividebutton.setBounds(300, 400, 80, 80);
+        mainPanel.add(dividebutton);
+
+        // Create and add FunctionButtons
+        dotbutton = new FunctionButton(".", this);
+        dotbutton.setBounds(120, 400, 80, 80);
+        mainPanel.add(dotbutton);
+
+        equalbutton = new FunctionButton("=", this);
+        equalbutton.setBounds(210, 400, 80, 80);
+        mainPanel.add(equalbutton);
+
+        clearbutton = new FunctionButton("C", this);
+        clearbutton.setBounds(390, 400, 80, 80);
+        mainPanel.add(clearbutton);
+
+		jf.setContentPane(mainPanel);	
 		jf.setVisible(true);
 		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -152,6 +133,25 @@ public static void main(String[] args) {
 	
 
 
+}
+
+class CalculatorPanel extends JPanel {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        // Define the gradient colors
+        Color startColor  = new Color(0x0033cc); // Light Gray
+        Color endColor = new Color(0xcc33ff); // Slightly Darker Gray
+
+        // Create the gradient paint
+        GradientPaint gp = new GradientPaint(0, 0, startColor, 0, getHeight(), endColor);
+        g2d.setPaint(gp);
+
+        // Fill the panel with the gradient
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+    }
 }
 @Override
 public void actionPerformed(ActionEvent e) { // Switches
@@ -216,32 +216,69 @@ public void actionPerformed(ActionEvent e) { // Switches
 			displaylabel.setText("0");
 			IsOperatorClicked =false;}
 		else {
-		displaylabel.setText(displaylabel.getText()+"0");}		
-	}else if (e.getSource()== equalbutton) {
-		String NewValue = displaylabel.getText();
-		float NewValuef = Float.parseFloat(NewValue);
-		float OldValuef = Float.parseFloat(OldValue);
+		displaylabel.setText(displaylabel.getText()+"0");
+	}	
+    }else if (e.getSource() == dotbutton){
+		if (!displaylabel.getText().contains(".")) {
+			displaylabel.setText(displaylabel.getText()+".");
+		}
 		
-		float result = OldValuef+NewValuef;
-		displaylabel.setText(result+"");
-		
-		//displaylabel.setText(displaylabel.getText()+"=");
 	}else if (e.getSource()== plusbutton) {
 		
 		IsOperatorClicked = true;	
 		OldValue = displaylabel.getText();
+		operator = "+";
 		//displaylabel.setText(displaylabel.getText()+"+");
 	}else if (e.getSource()== multibutton) {
+		IsOperatorClicked = true;
+		OldValue = displaylabel.getText();
+		operator = "*";
 //		displaylabel.setText(displaylabel.getText()+"*");
 	}else if (e.getSource()== dividebutton) {
+		IsOperatorClicked = true;
+		OldValue = displaylabel.getText();
+		operator = "/";
 	//	displaylabel.setText(displaylabel.getText()+"/");
-	}else if (e.getSource()== dotbutton) {
-		//displaylabel.setText(displaylabel.getText()+".");
 	}else if (e.getSource()==minusbutton) {
+		IsOperatorClicked = true;
+		OldValue = displaylabel.getText();
+		operator = "-";
 	//	displaylabel.setText(displaylabel.getText()+"-");
-	}else if (e.getSource()== clearbutton) {
+	}else if (e.getSource()== equalbutton) {
+		String NewValue = displaylabel.getText();
+		try{
+		float NewValuef = Float.parseFloat(NewValue);
+		float OldValuef = Float.parseFloat(OldValue);
+		
+		float result = 0;
+		switch (operator) {
+			case "+":
+				result = OldValuef + NewValuef;
+				break;
+			case "-":
+				result = OldValuef - NewValuef;
+				break;
+			case "*":
+				result = OldValuef * NewValuef;
+				break;
+			case "/":
+				if (NewValuef == 0){
+					displaylabel.setText("Error: Division by zero");
+					return;
+				}		
+			    result = OldValuef / NewValuef;
+				break;
+		}
+		displaylabel.setText(result + "");
+		IsOperatorClicked = true;
+	} catch (NumberFormatException ex){
+		displaylabel.setText("Invalid input");
+	}
+		
+	}else if (e.getSource() == clearbutton){
 		displaylabel.setText("");
-		//displaylabel.setText("");
-	
-}
+		IsOperatorClicked = false;
+		OldValue = "";
+		operator = "";
+	}
 }}
