@@ -41,6 +41,12 @@ A fully functional and visually appealing calculator application built using Jav
    ```bash
    java Calculator
 
+## 📸 Screenshots
+
+### Calculator
+<img src="images/Screenshot 2024-11-21 155147.png" alt="Calculator" width="200"/>
+*This is how the calculator looks like*
+
 ## 🧑‍💻 Author
 
 **Sabarinadh**  
